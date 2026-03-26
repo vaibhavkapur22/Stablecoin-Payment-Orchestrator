@@ -109,13 +109,4 @@ curl -X POST http://localhost:3000/payment_intents \
 
 ## Documentation
 
-Full documentation is available at **[vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/)**, covering:
-
-- [Getting Started](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/getting-started)
-- [Architecture](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/architecture)
-- [API Reference](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/api-reference)
-- [Routing Engine](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/routing-engine)
-- [Chain Adapters](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/chain-adapters)
-- [Database Schema](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/database)
-- [Configuration](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/configuration)
-- [Deployment](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/deployment)
+Full documentation is available at **[vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/)**.
