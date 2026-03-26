@@ -60,7 +60,7 @@ Copy the example environment file and customize:
 cp .env.example .env
 ```
 
-For local development, the defaults work out of the box with the Docker Compose setup. For blockchain integration, you'll need to provide RPC URLs and treasury private keys. See the [Configuration Reference](/Payment-Orchestrator/configuration) for all options.
+For local development, the defaults work out of the box with the Docker Compose setup. For blockchain integration, you'll need to provide RPC URLs and treasury private keys. See the [Configuration Reference](/Stablecoin-Payment-Orchestrator/configuration) for all options.
 
 ## Run Database Migrations
 
@@ -187,7 +187,7 @@ curl http://localhost:3000/payment_intents/pi_xyz789 \
 
 ## What's Next
 
-- [Architecture](/Payment-Orchestrator/architecture) --- Understand the system design
-- [API Reference](/Payment-Orchestrator/api-reference) --- Full endpoint documentation
-- [Routing Engine](/Payment-Orchestrator/routing-engine) --- How chain selection works
-- [Configuration](/Payment-Orchestrator/configuration) --- All environment variables
+- [Architecture](/Stablecoin-Payment-Orchestrator/architecture) --- Understand the system design
+- [API Reference](/Stablecoin-Payment-Orchestrator/api-reference) --- Full endpoint documentation
+- [Routing Engine](/Stablecoin-Payment-Orchestrator/routing-engine) --- How chain selection works
+- [Configuration](/Stablecoin-Payment-Orchestrator/configuration) --- All environment variables

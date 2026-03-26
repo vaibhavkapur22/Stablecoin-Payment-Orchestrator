@@ -1,6 +1,6 @@
 title: Stablecoin Payment Orchestrator
 description: A custodial stablecoin payment orchestrator that dynamically routes USDC transfers across multiple blockchains.
-baseurl: "/Payment-Orchestrator"
+baseurl: "/Stablecoin-Payment-Orchestrator"
 url: ""
 
 remote_theme: just-the-docs/just-the-docs@v0.10.0
@@ -9,7 +9,7 @@ color_scheme: dark
 
 aux_links:
   "GitHub":
-    - "https://github.com/vaibhavkapur22/Payment-Orchestrator"
+    - "https://github.com/vaibhavkapur22/Stablecoin-Payment-Orchestrator"
 
 aux_links_new_tab: true
 

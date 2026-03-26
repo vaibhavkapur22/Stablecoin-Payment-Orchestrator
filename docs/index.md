@@ -10,8 +10,8 @@ nav_order: 1
 A custodial payment orchestrator that accepts merchant payment requests in USD and dynamically routes USDC transfers across Ethereum and Solana based on cost, latency, and reliability.
 {: .fs-6 .fw-300 }
 
-[Get Started](/Payment-Orchestrator/getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[API Reference](/Payment-Orchestrator/api-reference){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get Started](/Stablecoin-Payment-Orchestrator/getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[API Reference](/Stablecoin-Payment-Orchestrator/api-reference){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
