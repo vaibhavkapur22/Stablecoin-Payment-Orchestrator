@@ -1,0 +1,44 @@
+title: Stablecoin Payment Orchestrator
+description: A custodial stablecoin payment orchestrator that dynamically routes USDC transfers across multiple blockchains.
+baseurl: "/Payment-Orchestrator"
+url: ""
+
+remote_theme: just-the-docs/just-the-docs@v0.10.0
+
+color_scheme: dark
+
+aux_links:
+  "GitHub":
+    - "https://github.com/vaibhavkapur22/Payment-Orchestrator"
+
+aux_links_new_tab: true
+
+nav_sort: order
+
+heading_anchors: true
+
+search_enabled: true
+search.button: true
+
+back_to_top: true
+back_to_top_text: "Back to top"
+
+footer_content: 'Stablecoin Payment Orchestrator &mdash; Open Source under MIT License.'
+
+callouts:
+  warning:
+    title: Warning
+    color: yellow
+  note:
+    title: Note
+    color: blue
+  important:
+    title: Important
+    color: red
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - node_modules/
+  - vendor/
