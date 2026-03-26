@@ -1,0 +1,11 @@
+{
+  "name": "@orchestrator/admin-dashboard",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx serve src -l 8080",
+    "start": "npx serve src -l 8080"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

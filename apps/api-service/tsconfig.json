@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../../packages/common" },
+    { "path": "../../packages/routing-engine" },
+    { "path": "../../packages/chain-adapters" },
+    { "path": "../../packages/ledger" }
+  ]
+}

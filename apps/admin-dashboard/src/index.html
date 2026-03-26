@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stablecoin Orchestrator — Admin Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --border: #2a2d3a;
+      --text: #e4e4e7;
+      --text-muted: #8b8d97;
+      --accent: #6366f1;
+      --green: #22c55e;
+      --red: #ef4444;
+      --yellow: #eab308;
+      --blue: #3b82f6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .header .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .dashboard {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .stat-card .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-card .value.green { color: var(--green); }
+    .stat-card .value.red { color: var(--red); }
+    .stat-card .value.yellow { color: var(--yellow); }
+    .stat-card .value.blue { color: var(--blue); }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-body {
+      padding: 16px 20px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-variant-numeric: tabular-nums;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-settled { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+    .badge-failed { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+    .badge-pending { background: rgba(234, 179, 8, 0.15); color: var(--yellow); }
+    .badge-broadcasting { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
+    .badge-healthy { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+    .badge-degraded { background: rgba(234, 179, 8, 0.15); color: var(--yellow); }
+    .badge-unhealthy { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+
+    .chain-health-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .chain-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .chain-card h3 {
+      font-size: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-size: 13px;
+    }
+
+    .metric-row .label { color: var(--text-muted); }
+
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .btn:hover { opacity: 0.9; }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 11px;
+    }
+
+    .btn-danger {
+      background: var(--red);
+    }
+
+    .simulation-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    .refresh-note {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Stablecoin Payment Orchestrator</h1>
+    <div class="status">
+      <div class="status-dot"></div>
+      <span>Live — auto-refreshing every 5s</span>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <!-- Stats Row -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card">
+        <div class="label">Total Payments</div>
+        <div class="value" id="stat-total">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Settled</div>
+        <div class="value green" id="stat-settled">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Failed</div>
+        <div class="value red" id="stat-failed">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Pending</div>
+        <div class="value yellow" id="stat-pending">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Total Volume (USD)</div>
+        <div class="value blue" id="stat-volume">—</div>
+      </div>
+    </div>
+
+    <!-- Chain Health + Treasury -->
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-header">
+          Chain Health
+          <span class="refresh-note">Updated by metrics collector</span>
+        </div>
+        <div class="panel-body">
+          <div class="chain-health-grid" id="chain-health"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">Treasury Balances</div>
+        <div class="panel-body">
+          <table>
+            <thead>
+              <tr><th>Chain</th><th>Address</th><th>Available</th><th>Reserved</th><th>Net</th></tr>
+            </thead>
+            <tbody id="treasury-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simulation Controls -->
+    <div class="panel">
+      <div class="panel-header">Demo Simulation Controls</div>
+      <div class="panel-body">
+        <div class="simulation-controls">
+          <button class="btn" onclick="simulateDegrade('solana')">Degrade Solana</button>
+          <button class="btn" onclick="simulateDegrade('ethereum')">Degrade Ethereum</button>
+          <button class="btn btn-danger" onclick="simulateUnhealthy('solana')">Mark Solana Unhealthy</button>
+          <button class="btn btn-danger" onclick="simulateUnhealthy('ethereum')">Mark Ethereum Unhealthy</button>
+          <button class="btn" onclick="simulateRecover('solana')" style="background:var(--green)">Recover Solana</button>
+          <button class="btn" onclick="simulateRecover('ethereum')" style="background:var(--green)">Recover Ethereum</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Route Distribution -->
+    <div class="panel">
+      <div class="panel-header">Route Distribution</div>
+      <div class="panel-body">
+        <table>
+          <thead>
+            <tr><th>Chain</th><th>Count</th><th>Volume (USD)</th></tr>
+          </thead>
+          <tbody id="route-dist-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Recent Payments -->
+    <div class="panel">
+      <div class="panel-header">Recent Payments</div>
+      <div class="panel-body" style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Amount</th>
+              <th>Chain</th>
+              <th>Status</th>
+              <th>Tx ID</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="payments-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = window.location.hostname === 'localhost'
+      ? 'http://localhost:3000'
+      : '';
+
+    async function fetchOverview() {
+      try {
+        const res = await fetch(`${API_BASE}/admin/overview`);
+        const data = await res.json();
+
+        // Stats
+        document.getElementById('stat-total').textContent = data.payments.total;
+        document.getElementById('stat-settled').textContent = data.payments.settled;
+        document.getElementById('stat-failed').textContent = data.payments.failed;
+        document.getElementById('stat-pending').textContent = data.payments.pending;
+        document.getElementById('stat-volume').textContent = `$${data.payments.total_volume_usd.toLocaleString()}`;
+
+        // Chain health
+        const healthHtml = data.chain_health.map(ch => `
+          <div class="chain-card">
+            <h3>
+              ${ch.chain.charAt(0).toUpperCase() + ch.chain.slice(1)}
+              <span class="badge badge-${ch.health_status}">${ch.health_status}</span>
+            </h3>
+            <div class="metric-row"><span class="label">Estimated Fee</span><span>$${Number(ch.estimated_fee_usd).toFixed(4)}</span></div>
+            <div class="metric-row"><span class="label">Avg Confirmation</span><span>${Number(ch.avg_confirmation_seconds).toFixed(0)}s</span></div>
+            <div class="metric-row"><span class="label">RPC Error Rate</span><span>${(Number(ch.rpc_error_rate) * 100).toFixed(1)}%</span></div>
+            <div class="metric-row"><span class="label">P95 Latency</span><span>${ch.p95_latency_ms}ms</span></div>
+            <div class="metric-row"><span class="label">Congestion</span><span>${(Number(ch.congestion_score) * 100).toFixed(0)}%</span></div>
+          </div>
+        `).join('');
+        document.getElementById('chain-health').innerHTML = healthHtml || '<div class="empty">No health data</div>';
+
+        // Treasury
+        const treasuryHtml = data.treasury_balances.map(tw => {
+          const net = Number(tw.available_balance) - Number(tw.reserved_balance);
+          return `
+            <tr>
+              <td>${tw.chain}</td>
+              <td><code>${tw.address.slice(0, 8)}...${tw.address.slice(-4)}</code></td>
+              <td>$${Number(tw.available_balance).toLocaleString()}</td>
+              <td>$${Number(tw.reserved_balance).toLocaleString()}</td>
+              <td>$${net.toLocaleString()}</td>
+            </tr>
+          `;
+        }).join('');
+        document.getElementById('treasury-table').innerHTML = treasuryHtml || '<tr><td colspan="5" class="empty">No treasury data</td></tr>';
+
+        // Recent payments
+        const paymentsHtml = data.recent_payments.map(p => {
+          const statusClass = p.status === 'settled' ? 'settled' :
+            p.status === 'failed' ? 'failed' :
+            p.status.includes('broadcast') ? 'broadcasting' : 'pending';
+          const txDisplay = p.tx_id ? `<code>${p.tx_id.slice(0, 10)}...</code>` : '—';
+          return `
+            <tr>
+              <td><code>${p.id}</code></td>
+              <td>$${Number(p.amount_usd).toFixed(2)}</td>
+              <td>${p.selected_chain}</td>
+              <td><span class="badge badge-${statusClass}">${p.status}</span></td>
+              <td>${txDisplay}</td>
+              <td>${new Date(p.created_at).toLocaleTimeString()}</td>
+            </tr>
+          `;
+        }).join('');
+        document.getElementById('payments-table').innerHTML = paymentsHtml || '<tr><td colspan="6" class="empty">No payments yet</td></tr>';
+
+      } catch (err) {
+        console.error('Failed to fetch overview:', err);
+      }
+    }
+
+    async function fetchRouteDistribution() {
+      try {
+        const res = await fetch(`${API_BASE}/admin/route-distribution`);
+        const data = await res.json();
+
+        const html = data.map(r => `
+          <tr>
+            <td>${r.selected_chain}</td>
+            <td>${r.count}</td>
+            <td>$${Number(r.volume).toLocaleString()}</td>
+          </tr>
+        `).join('');
+        document.getElementById('route-dist-table').innerHTML = html || '<tr><td colspan="3" class="empty">No data</td></tr>';
+      } catch (err) {
+        console.error('Failed to fetch route distribution:', err);
+      }
+    }
+
+    async function simulateDegrade(chain) {
+      await fetch(`${API_BASE}/admin/chain-health`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chain,
+          health_status: 'degraded',
+          rpc_error_rate: 0.15,
+          estimated_fee_usd: chain === 'ethereum' ? 8.5 : 0.15,
+          avg_confirmation_seconds: chain === 'ethereum' ? 180 : 25,
+        }),
+      });
+      fetchOverview();
+    }
+
+    async function simulateUnhealthy(chain) {
+      await fetch(`${API_BASE}/admin/chain-health`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chain,
+          health_status: 'unhealthy',
+          rpc_error_rate: 0.8,
+          estimated_fee_usd: chain === 'ethereum' ? 25 : 1,
+          avg_confirmation_seconds: chain === 'ethereum' ? 600 : 120,
+        }),
+      });
+      fetchOverview();
+    }
+
+    async function simulateRecover(chain) {
+      await fetch(`${API_BASE}/admin/chain-health`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chain,
+          health_status: 'healthy',
+          rpc_error_rate: chain === 'ethereum' ? 0.01 : 0.02,
+          estimated_fee_usd: chain === 'ethereum' ? 1.83 : 0.02,
+          avg_confirmation_seconds: chain === 'ethereum' ? 75 : 8,
+        }),
+      });
+      fetchOverview();
+    }
+
+    // Initial fetch
+    fetchOverview();
+    fetchRouteDistribution();
+
+    // Auto-refresh every 5 seconds
+    setInterval(() => {
+      fetchOverview();
+      fetchRouteDistribution();
+    }, 5000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm --version)",
+      "Read(//Users/vaibhavkapur/.nvm/versions/**)",
+      "Bash(brew list:*)",
+      "Read(//opt/homebrew/opt/**)",
+      "Read(//usr/local/opt/**)",
+      "Bash(/usr/local/opt/node@18/bin/node --version)",
+      "Bash(/usr/local/opt/node@18/bin/npm --version)",
+      "Bash(/usr/local/opt/node/bin/node --version)",
+      "Bash(/usr/local/opt/node/bin/npm --version)",
+      "Read(//usr/local/Cellar/node/18.7.0/bin/**)",
+      "Read(//usr/local/lib/node_modules/npm/bin/**)",
+      "Bash(npm root:*)",
+      "Bash(/usr/local/opt/node@18/bin/node -e \"require\\(''child_process''\\).execSync\\(''/usr/local/opt/node@18/bin/node /usr/local/lib/node_modules/npm/bin/npm-cli.js --version'', {stdio:''inherit''}\\)\")",
+      "Bash(PATH=\"/usr/local/opt/node@18/bin:$PATH\" npx --version)",
+      "Bash(yarn:*)",
+      "Bash(npx tsc:*)",
+      "Bash(docker-compose -f infra/docker/docker-compose.yml up -d)",
+      "Bash(docker compose:*)",
+      "Bash(open -a Docker)",
+      "Bash(DATABASE_URL=postgresql://orchestrator:orchestrator@localhost:5432/orchestrator node infra/migrations/run.js)",
+      "Bash(npx tsx:*)",
+      "Bash(curl -s http://localhost:3000/health)",
+      "Bash(DATABASE_URL=postgresql://orchestrator:orchestrator@localhost:5432/orchestrator REDIS_URL=redis://localhost:6379 NODE_ENV=development node apps/api-service/dist/index.js)",
+      "Bash(DATABASE_URL=postgresql://orchestrator:orchestrator@localhost:5432/orchestrator REDIS_URL=redis://localhost:6379 NODE_ENV=development /usr/local/opt/node@18/bin/node apps/api-service/dist/index.js)",
+      "Bash(curl -s -X POST http://localhost:3000/quotes -H \"Content-Type: application/json\" -H \"x-api-key: test\" -d '{:*)",
+      "Bash(/usr/local/opt/node@18/bin/node -e \"process.stdin.on\\(''''data'''',d=>{const j=JSON.parse\\(d\\);console.log\\(JSON.stringify\\(j,null,2\\)\\);process.stdout.write\\(''''QUOTE_ID=''''+j.quote_id+''''\\\\n''''\\)}\\)\")",
+      "Bash(curl -s -X POST http://localhost:3000/payment_intents -H \"Content-Type: application/json\" -H \"x-api-key: test\" -d '{:*)",
+      "Bash(/usr/local/opt/node@18/bin/node -e \"process.stdin.on\\(''''data'''',d=>console.log\\(JSON.stringify\\(JSON.parse\\(d\\),null,2\\)\\)\\)\")",
+      "Bash(curl -s -X POST http://localhost:3000/payment_intents -H \"Content-Type: application/json\" -H \"x-api-key: test\" -d '{\"\"\"\"quote_id\"\"\"\": \"\"\"\"qt_p1ibR8aqohXV053p\"\"\"\", \"\"\"\"idempotency_key\"\"\"\": \"\"\"\"order-001\"\"\"\"}')",
+      "Bash(/usr/local/opt/node@18/bin/node -e \"process.stdin.on\\(''''data'''',d=>console.log\\(JSON.stringify\\(JSON.parse\\(d\\),null,2\\)\\)\\)\" __NEW_LINE_1118e7d853a190a7__ echo \"\" echo \"=== 4. Get Payment Intent ===\")",
+      "Bash(curl -s http://localhost:3000/payment_intents/pi_G0g94QHLOwiQDpP7 -H \"x-api-key: test\")",
+      "Bash(curl -s http://localhost:3000/admin/overview)",
+      "Bash(gh repo:*)"
+    ]
+  }
+}
