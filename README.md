@@ -2,12 +2,7 @@
 
 A custodial payment orchestrator that accepts merchant payment requests in USD and dynamically routes USDC transfers across Ethereum and Solana based on cost, latency, and reliability.
 
-## How It Works
-
-1. **Merchant requests a quote** — the routing engine scores each chain using real-time health metrics and the merchant's priority (`low_fee`, `fast`, or `reliable`)
-2. **Merchant confirms a payment intent** — treasury funds are reserved and a transaction job is enqueued
-3. **Worker broadcasts the transaction** — the chain adapter sends USDC on the selected blockchain
-4. **Confirmation monitor settles the payment** — once finalized on-chain, the merchant receives a signed webhook
+> **[Read the full documentation](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/)**
 
 ## Getting Started
 
@@ -49,7 +44,3 @@ curl -X POST http://localhost:3000/payment_intents \
   -H "X-Api-Key: test-api-key" \
   -d '{ "quote_id": "quo_...", "idempotency_key": "order-123" }'
 ```
-
-## Documentation
-
-Full documentation is available at **[vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator](https://vaibhavkapur22.github.io/Stablecoin-Payment-Orchestrator/)**.
